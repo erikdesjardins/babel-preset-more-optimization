@@ -1,0 +1,25 @@
+{
+  "name": "babel-preset-more-optimization",
+  "version": "0.0.0",
+  "description": "Babel preset for additional optimization/minification.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erikdesjardins/babel-preset-more-optimization.git"
+  },
+  "keywords": [
+    "babel"
+  ],
+  "author": "Erik Desjardins",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikdesjardins/babel-preset-more-optimization/issues"
+  },
+  "homepage": "https://github.com/erikdesjardins/babel-preset-more-optimization#readme",
+  "devDependencies": {
+    "jest": "^21.1.0"
+  }
+}
