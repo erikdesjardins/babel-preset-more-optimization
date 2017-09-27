@@ -1,5 +1,4 @@
 # Everything
 *
 
-!index.js
-!src/**/*.js
+!dist
