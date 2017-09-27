@@ -6,8 +6,9 @@
   "scripts": {
     "prepublish": "babel src --ignore __tests__ --out-dir dist",
     "test": "jest",
+    "watch": "jest --watch",
     "coverage": "jest --coverage",
-    "report-coverage": "coveralls < coverage/lcov.info"
+    "report": "coveralls < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
