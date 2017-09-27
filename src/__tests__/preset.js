@@ -1,6 +1,6 @@
 jest.autoMockOff();
 
-const thePreset = require('../../../utils/test-transform')([], { presets: [require('../index')] });
+const thePreset = require('../../utils/test-transform')([], { presets: [require('../index')] });
 
 describe('more-optimization', () => {
 	thePreset('cuts through exports objects', `
