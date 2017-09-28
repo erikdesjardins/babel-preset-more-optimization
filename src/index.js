@@ -13,12 +13,13 @@ module.exports = function babelPresetMoreOptimization(context, opts_) {
 	};
 
 	return {
-		plugins: [
-			[flattenIifePlugin, pluginOpts],
-			[inlineIdentityPlugin, pluginOpts],
-			[objectUnfreezePlugin, pluginOpts],
-			[scalarReplacementPlugin, pluginOpts],
-			[storeToLoadPlugin, pluginOpts]
+		passPerPreset: true,
+		presets: [
+			{ plugins: [[flattenIifePlugin, pluginOpts]] },
+			{ plugins: [[inlineIdentityPlugin, pluginOpts]] },
+			{ plugins: [[objectUnfreezePlugin, pluginOpts]] },
+			{ plugins: [[scalarReplacementPlugin, pluginOpts]] },
+			{ plugins: [[storeToLoadPlugin, pluginOpts]] }
 		]
 	};
 };
