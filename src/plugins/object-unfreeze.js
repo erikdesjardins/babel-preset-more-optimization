@@ -1,4 +1,8 @@
 // Remove calls to Object.freeze, Object.seal, Object.preventExtensions
+// ...with the aim of facilitating SROA (primarily), DCE, and inlining.
+// Currently, these functions also hurt performance, by converting the objects to a slower backing store (in V8),
+// however in the future this may change (V8 will optimize for nonconfigurable nonwriteable properties in context specialization),
+// so it may be beneficial to remove this and just make SROA "see through" these functions.
 
 module.exports = function storeToLoadPlugin({ types: t }) {
 	return {

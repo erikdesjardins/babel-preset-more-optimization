@@ -1,4 +1,6 @@
-// Store-to-load forwarding
+// Store-to-load forwarding, i.e. copy propagation
+// Only constant->constant copies are propagated,
+// as tracking mutation would require more complex dataflow analysis.
 
 module.exports = function storeToLoadPlugin({ types: t }) {
 	return {
