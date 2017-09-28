@@ -1,6 +1,8 @@
 jest.autoMockOff();
 
 const thePlugin = require('../../../utils/test-transform')(require('../store-to-load'));
+const thePluginVerifies = require('../../../utils/test-transform').withVerifier(require('../store-to-load'));
+const dumpScope = require('../../../utils/dump-scope');
 
 const declarations = `
 			var something = 1;
@@ -212,6 +214,114 @@ describe('store-to-load', () => {
 				var _something = 8;
 				var _something2 = 11;
 				_something3;
+			}
+		`);
+		thePlugin('double-shadowed identifiers, non-forwarded references', `
+			var something = 1;
+			class Foo {}
+			function foo() {}
+
+			var a = something;
+			var b = Foo;
+			var c = foo;
+			function x() {
+				var something = 5;
+				var Foo = 6;
+				var foo = 7;
+				a;
+				b;
+				c;
+			}
+			function y() {
+				var _something = 8;
+				var _Foo = 9;
+				var _foo = 0;
+				something;
+				Foo;
+				foo;
+			}
+		`, `
+			var _something2 = 1;
+			class _Foo2 {}
+			function _foo2() {}
+
+			function x() {
+				var something = 5;
+				var Foo = 6;
+				var foo = 7;
+				_something2;
+				_Foo2;
+				_foo2;
+			}
+			function y() {
+				var _something = 8;
+				var _Foo = 9;
+				var _foo = 0;
+				_something2;
+				_Foo2;
+				_foo2;
+			}
+		`);
+		thePlugin('triple-shadowed identifiers, non-forwarded references', `
+			var something = 1;
+
+			var a = something;
+			function x() {
+				var something = 5;
+				a;
+			}
+			function y() {
+				var _something = 8;
+				var _something2 = 11;
+				something; 
+			}
+		`, `
+			var _something3 = 1;
+
+			function x() {
+				var something = 5;
+				_something3;
+			}
+			function y() {
+				var _something = 8;
+				var _something2 = 11;
+				_something3;
+			}
+		`);
+		thePluginVerifies('correctly fixes bindings', path => {
+			const fooScope = path.get('body.1.body.body.0').scope;
+			expect(dumpScope(fooScope)).toBe([
+				'FunctionDeclaration',
+				`- something ${JSON.stringify({ constant: true, references: 0, violations: 0, kind: 'var' })}`,
+				'FunctionDeclaration',
+				`- foo ${JSON.stringify({ constant: true, references: 0, violations: 0, kind: 'hoisted' })}`,
+				`- bar ${JSON.stringify({ constant: true, references: 0, violations: 0, kind: 'hoisted' })}`,
+				'Program',
+				`- _something ${JSON.stringify({ constant: true, references: 2, violations: 0, kind: 'var' })}`,
+				`- main ${JSON.stringify({ constant: true, references: 0, violations: 0, kind: 'hoisted' })}`,
+			].join('\n'));
+		}, `
+			var something = 1;
+			function main() {
+				var x = something;
+				function foo() {
+					var something = 5;
+					x;
+				}
+				function bar() {
+					something;
+				}
+			}
+		`, `
+			var _something = 1;
+			function main() {
+				function foo() {
+					var something = 5;
+					_something;
+				}
+				function bar() {
+					_something;
+				}
 			}
 		`);
 	});

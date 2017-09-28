@@ -39,12 +39,20 @@ function makeTester(plugins, opts, check) {
 	return thePlugin;
 }
 
-exports = module.exports = (plugins, opts) =>
+module.exports = (plugins, opts) =>
 	makeTester(plugins, opts, ({ transformed, expected }) => {
 		expect(transformed).toBe(expected);
 	});
 
-exports.snapshot = (plugins, opts) =>
+module.exports.withVerifier = (plugins) =>
+	(name, verifierVisitor, ...args) => makeTester(plugins, {
+		passPerPreset: true,
+		presets: [{ plugins: [() => ({ visitor: { Program: { exit: verifierVisitor } } })] }],
+	}, ({ transformed, expected }) => {
+		expect(transformed).toBe(expected);
+	})(name, ...args);
+
+module.exports.snapshot = (plugins, opts) =>
 	makeTester(plugins, opts, ({ transformed, source }) => {
 		// Jest arranges in alphabetical order, So keeping it as _source
 		expect({ _source: source, expected: transformed }).toMatchSnapshot();

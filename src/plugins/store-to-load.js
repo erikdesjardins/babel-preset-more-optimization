@@ -17,11 +17,16 @@ module.exports = function storeToLoadPlugin({ types: t }) {
 
 				let renameTo = path.node.init.name;
 
+				// both references of the redundant identifier and the original (forwarded) identifier
+				// must be checked, to ensure that we won't be renaming existing references to a shadowed name
+				const relevantReferences = [].concat(storeBinding.referencePaths, loadBinding.referencePaths);
+
 				// ensure that binding will be unique in all relevant child scopes
-				for (let i = 0; i < storeBinding.referencePaths.length; ++i) {
-					const binding = storeBinding.referencePaths[i].scope.getBinding(renameTo);
+				for (let i = 0; i < relevantReferences.length; ++i) {
+					const binding = relevantReferences[i].scope.getBinding(renameTo);
+					// if binding binding resolves to something, try a different identifier
+					// unless it's the original (forwarded) identifier, which is fine
 					if (binding && binding !== loadBinding) {
-						// binding resolves to something, try a different identifier
 						renameTo = path.scope.generateUid(path.node.init.name);
 
 						// replace original definition
@@ -33,10 +38,16 @@ module.exports = function storeToLoadPlugin({ types: t }) {
 				}
 
 				// replace references
-				path.scope.rename(path.node.id.name, renameTo);
+				for (const reference of relevantReferences) {
+					reference.node.name = renameTo;
+				}
 
-				// remove forwarded-out variable
+				// remove forwarded-out variable and repair scope information
 				path.remove();
+				path.scope.crawl(); // record the removal of that variable
+
+				// repair top-level scope information
+				loadBinding.scope.crawl(); // record new references of original (forwarded) variable
 			}
 		}
 	};
