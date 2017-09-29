@@ -1,6 +1,6 @@
 // Inline trivial identity functions
 
-module.exports = function scalarReplacementPlugin({ types: t }) {
+module.exports = function inlineIdentityPlugin({ types: t }) {
 	return {
 		visitor: {
 			CallExpression: function(path) {
