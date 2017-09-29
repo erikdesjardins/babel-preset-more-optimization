@@ -45,12 +45,12 @@ module.exports = (plugins, opts) =>
 	});
 
 module.exports.withVerifier = (plugins) =>
-	(name, verifierVisitor, ...args) => makeTester(plugins, {
+	(name, verifierVisitor, source, expected) => makeTester(plugins, {
 		passPerPreset: true,
 		presets: [{ plugins: [() => ({ visitor: { Program: { exit: verifierVisitor } } })] }],
 	}, ({ transformed, expected }) => {
 		expect(transformed).toBe(expected);
-	})(name, ...args);
+	})(name, source, expected);
 
 module.exports.snapshot = (plugins, opts) =>
 	makeTester(plugins, opts, ({ transformed, source }) => {
