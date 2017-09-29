@@ -47,6 +47,9 @@ describe('object-unfreeze', () => {
 		thePlugin('different member functions', `
 			Object.defineProperty({});
 		`);
+		thePlugin('computed member functions', `
+			Object[foo]({});
+		`);
 		thePlugin('not a single argument', `
 			Object.freeze();
 			Object.freeze({}, 42);
