@@ -493,6 +493,11 @@ describe('scalar-replacement', () => {
 				...foo
 			};
 		`);
+		thePlugin('destructuring', `
+			var { a } = {
+				a: 5
+			};
+		`);
 		thePlugin('computed member access through variable', `
 			var x = {
 				ab: 5
