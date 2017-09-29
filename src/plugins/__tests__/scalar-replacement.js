@@ -443,6 +443,24 @@ describe('scalar-replacement', () => {
 			};
 			x = {};
 		`);
+		thePlugin('object escapes', `
+			var x = {
+				a: 5
+			};
+			x;
+		`);
+		thePlugin('object escapes through call', `
+			var x = {
+				a: 5
+			};
+			foo(x);
+		`);
+		thePlugin('object escapes through assignment', `
+			var x = {
+				a: 5
+			};
+			var y = x;
+		`);
 		thePlugin('getters', `
 			var x = {
 				a: 5,
