@@ -229,6 +229,29 @@ describe('scalar-replacement', () => {
 				w;
 			};
 		`);
+		thePlugin('methods with string names', `
+			var x = {
+				'a'(y) {
+					y;
+				},
+				async 'b'(z) {
+					z;
+				},
+				*'c'(w) {
+					w;
+				}
+			};
+		`, `
+			var _x$a = function a(y) {
+				y;
+			},
+			    _x$b = async function b(z) {
+				z;
+			},
+			    _x$c = function* c(w) {
+				w;
+			};
+		`);
 		thePlugin('methods with computed names', `
 			var x = {
 				['-a'](y) {
@@ -453,11 +476,22 @@ describe('scalar-replacement', () => {
 				['x' + 'y']: 5
 			};
 		`);
+		thePlugin('computed props through variable', `
+			var x = {
+				[y]: 5
+			};
+		`);
 		thePlugin('computed member access', `
 			var x = {
 				ab: 5
 			};
 			x['a' + 'b'];
+		`);
+		thePlugin('computed member access through variable', `
+			var x = {
+				ab: 5
+			};
+			x[ab];
 		`);
 		thePlugin('referencing this, simple cases', `
 			var x = {

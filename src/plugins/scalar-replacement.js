@@ -27,7 +27,7 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 				const properties = Object.create(null); // raw key -> value
 				for (const prop of path.node.init.properties) {
 					let name;
-					if (t.isIdentifier(prop.key)) {
+					if (!prop.computed && t.isIdentifier(prop.key)) {
 						name = prop.key.name;
 					} else if (t.isStringLiteral(prop.key)) {
 						name = prop.key.value;
@@ -76,7 +76,7 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 					}
 
 					let name;
-					if (t.isIdentifier(refPath.parent.property)) {
+					if (!refPath.parent.computed && t.isIdentifier(refPath.parent.property)) {
 						name = refPath.parent.property.name;
 					} else if (t.isStringLiteral(refPath.parent.property)) {
 						name = refPath.parent.property.value;
