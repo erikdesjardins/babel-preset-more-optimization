@@ -26,7 +26,7 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 				// populate the map with initial values of each object property
 				const properties = Object.create(null); // raw key -> value
 				for (const prop of path.node.init.properties) {
-					if (t.isSpreadElement(prop)) return; // object spread
+					if (t.isSpreadProperty(prop)) return; // object spread
 
 					let name;
 					if (!prop.computed && t.isIdentifier(prop.key)) {
