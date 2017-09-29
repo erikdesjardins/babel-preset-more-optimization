@@ -219,13 +219,13 @@ describe('scalar-replacement', () => {
 				}
 			};
 		`, `
-			var _x$a = function (y) {
+			var _x$a = function a(y) {
 				y;
 			},
-			    _x$b = async function (z) {
+			    _x$b = async function b(z) {
 				z;
 			},
-			    _x$c = function* (w) {
+			    _x$c = function* c(w) {
 				w;
 			};
 		`);
@@ -234,7 +234,7 @@ describe('scalar-replacement', () => {
 				['-a'](y) {
 					y;
 				},
-				async ['-b'](z) {
+				async ['9b'](z) {
 					z;
 				},
 				*['-c'](w) {
@@ -242,13 +242,13 @@ describe('scalar-replacement', () => {
 				}
 			};
 		`, `
-			var _x$_a = function (y) {
+			var _x$_a = function _a(y) {
 				y;
 			},
-			    _x$_b = async function (z) {
+			    _x$9b = async function _b(z) {
 				z;
 			},
-			    _x$_c = function* (w) {
+			    _x$_c = function* _c(w) {
 				w;
 			};
 		`);

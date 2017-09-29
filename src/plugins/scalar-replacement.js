@@ -1,9 +1,5 @@
 // Scalar replacement of aggregates
 
-function convertToIdentifier(string) {
-	return string.replace(/[^\w_$]/g, '_');
-}
-
 module.exports = function scalarReplacementPlugin({ types: t }) {
 	return {
 		visitor: {
@@ -47,7 +43,14 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 					} else if (t.isObjectMethod(prop)) {
 						switch (prop.kind) {
 							case 'method':
-								value = t.functionExpression(null, prop.params, prop.body, prop.generator, prop.async);
+								value = t.functionExpression(
+									// not quite the same name mangling as below, as leading numbers are replaced
+									t.identifier(name.replace(/^\d|[^\w_$]/g, '_')),
+									prop.params,
+									prop.body,
+									prop.generator,
+									prop.async
+								);
 								break;
 							case 'get':
 							case 'set':
@@ -92,7 +95,8 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 				for (const name in properties) {
 					const val = properties[name];
 
-					const identifier = t.identifier(path.scope.generateUid(path.node.id.name + '$' + convertToIdentifier(name)));
+					// leading numbers are fine here because the variable already has a prefix
+					const identifier = t.identifier(path.scope.generateUid(path.node.id.name + '$' + name.replace(/[^\w_$]/g, '_')));
 
 					// emit variable declaration into scope
 					path.insertBefore(t.variableDeclarator(identifier, val));
