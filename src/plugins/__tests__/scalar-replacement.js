@@ -487,6 +487,12 @@ describe('scalar-replacement', () => {
 			};
 			x['a' + 'b'];
 		`);
+		thePlugin('object spread', `
+			var x = {
+				ab: 5,
+				...foo
+			};
+		`);
 		thePlugin('computed member access through variable', `
 			var x = {
 				ab: 5

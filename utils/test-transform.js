@@ -16,7 +16,7 @@ function makeTester(plugins, opts, check) {
 	const thePlugin = (name, source, expected = source) => {
 		const { stack } = new Error();
 		const options = Object.assign(
-			{ plugins, sourceType: "script" },
+			{ plugins: plugins.concat("syntax-object-rest-spread"), sourceType: "script" },
 			opts,
 		);
 		it(name, () => {
