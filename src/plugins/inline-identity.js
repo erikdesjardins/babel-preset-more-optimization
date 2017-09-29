@@ -3,7 +3,7 @@
 module.exports = function inlineIdentityPlugin({ types: t }) {
 	return {
 		visitor: {
-			CallExpression: function(path) {
+			CallExpression(path) {
 				const { unsafe } = this.opts;
 
 				const { callee } = path.node;

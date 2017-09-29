@@ -3,7 +3,7 @@
 module.exports = function scalarReplacementPlugin({ types: t }) {
 	return {
 		visitor: {
-			VariableDeclarator: function(path) {
+			VariableDeclarator(path) {
 				const { unsafe } = this.opts;
 
 				if (!t.isIdentifier(path.node.id)) return; // not a pure store (destructuring)

@@ -7,7 +7,7 @@
 module.exports = function storeToLoadPlugin({ types: t }) {
 	return {
 		visitor: {
-			CallExpression: function(path) {
+			CallExpression(path) {
 				// limit to `Object.{freeze,seal,preventExtensions}(<single argument>)`
 				if (!t.isMemberExpression(path.node.callee)) return;
 				if (!t.isIdentifier(path.node.callee.object, { name: 'Object' })) return;

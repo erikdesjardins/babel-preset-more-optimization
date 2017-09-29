@@ -5,7 +5,7 @@
 module.exports = function storeToLoadPlugin({ types: t }) {
 	return {
 		visitor: {
-			VariableDeclarator: function(path) {
+			VariableDeclarator(path) {
 				if (!t.isIdentifier(path.node.id)) return; // not a pure store (destructuring)
 				if (!t.isIdentifier(path.node.init)) return; // not a pure load
 
