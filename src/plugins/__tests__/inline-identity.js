@@ -133,7 +133,7 @@ describe('inline-identity', () => {
 			var x = i(1);
 		`);
 		thePlugin('classes', `
-			var i = class {};
+			class i {};
 			var x = i(1);
 		`);
 		thePlugin('unknown functions', `

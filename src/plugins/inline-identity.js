@@ -25,7 +25,6 @@ module.exports = function inlineIdentityPlugin({ types: t }) {
 				if (t.isFunctionDeclaration(binding.path.node)) {
 					fn = binding.path.node;
 				} else if (t.isVariableDeclarator(binding.path.node)) {
-
 					if (!t.isFunction(binding.path.node.init)) return; // something weird
 					fn = binding.path.node.init;
 				} else {
