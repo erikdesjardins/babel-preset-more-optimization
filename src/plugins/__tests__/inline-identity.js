@@ -45,6 +45,17 @@ describe('inline-identity', () => {
 			};
 			var x = 1;
 		`);
+		thePlugin('additional params', `
+			function i(x, y) {
+				return x;
+			}
+			var x = i(1);
+		`, `
+			function i(x, y) {
+				return x;
+			}
+			var x = 1;
+		`);
 		thePlugin('additional pure arguments', `
 			function i(x) {
 				return x;
