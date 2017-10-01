@@ -344,5 +344,9 @@ describe('store-to-load', () => {
 			a;
 			something = somethingElse;
 		`);
+		thePlugin('unreferenced identifier', `
+			var a = something;
+			a;
+		`);
 	});
 });

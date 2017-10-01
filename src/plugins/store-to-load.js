@@ -13,7 +13,7 @@ module.exports = function storeToLoadPlugin({ types: t }) {
 				if (!storeBinding.constant) return; // store is overwritten
 
 				const loadBinding = path.scope.getBinding(path.node.init.name);
-				if (!loadBinding.constant) return; // value loaded is overwritten
+				if (!loadBinding || !loadBinding.constant) return; // value loaded is overwritten
 
 				let renameTo = path.node.init.name;
 
