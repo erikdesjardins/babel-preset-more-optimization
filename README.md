@@ -2,6 +2,8 @@
 
 Babel preset for additional optimization/minification.
 
+## If you stumble across this: NOT FOR PRODUCTION USE
+
 ## Installation
 
 `npm install --save-dev babel-preset-more-optimization`
