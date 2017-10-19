@@ -438,8 +438,7 @@ describe('scalar-replacement', () => {
 	describe('bails out on', () => {
 		thePlugin('mutated variable', `
 			var x = {
-				a: 5,
-				get y() {}
+				a: 5
 			};
 			x = {};
 		`);
