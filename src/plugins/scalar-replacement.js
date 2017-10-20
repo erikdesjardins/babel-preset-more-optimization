@@ -110,7 +110,7 @@ module.exports = function scalarReplacementPlugin({ types: t }) {
 				// replace each property reference with the corresponding unique identifier
 				for (const name in propertyReferences) {
 					for (const refPath of propertyReferences[name]) {
-						refPath.parentPath.replaceWith(identifiers[name]);
+						refPath.parentPath.replaceWith(t.clone(identifiers[name]));
 					}
 				}
 
