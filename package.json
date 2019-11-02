@@ -1,14 +1,13 @@
 {
   "name": "babel-preset-more-optimization",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Babel preset for additional optimization/minification.",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "babel src --ignore __tests__ --out-dir dist",
     "test": "jest",
     "watch": "jest --watch",
-    "coverage": "jest --coverage --collectCoverageFrom=src/**/*.js",
-    "report": "coveralls < coverage/lcov.info"
+    "coverage": "jest --coverage --collectCoverageFrom=src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +22,13 @@
     "url": "https://github.com/erikdesjardins/babel-preset-more-optimization/issues"
   },
   "homepage": "https://github.com/erikdesjardins/babel-preset-more-optimization#readme",
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "lines": 100
+      }
+    }
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -32,7 +38,6 @@
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-register": "^6.26.0",
-    "coveralls": "^2.13.1",
     "jest": "^21.1.0"
   }
 }
